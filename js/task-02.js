@@ -24,6 +24,7 @@ const images = [
     alt: 'Zebras on Zebra',
   },
 ];
+
 let galleryListStr = '';
 images.forEach (image => {
   galleryListStr += `

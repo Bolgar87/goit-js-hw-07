@@ -1,21 +1,45 @@
-const loginForm = document.querySelector ('.login-form');
+const btnCreate = document.querySelector ('button[data-create]');
 
-loginForm.addEventListener ('submit', e => {
-  e.preventDefault ();
+btnCreate.addEventListener ('click', e => {
+  const inputVal = document.querySelector ('#controls input');
+  const amount = inputVal.value.trim ();
 
-  const form = e.target;
-  const email = form.elements.email.value.trim ();
-  const password = form.elements.password.value.trim ();
-
-  if (
-    !email.replace (/\s/g, '').length ||
-    !password.replace (/\s/g, '').length
-  ) {
-    alert ('All form fields must be filled in');
+  if (amount < 1 || amount > 100) {
     return false;
   }
 
-  form.reset ();
-  console.log ({email, password});
-  return true;
+  inputVal.value = '';
+  createBoxes (amount);
 });
+
+function createBoxes (amount) {
+  const boxesHolder = document.querySelector ('#boxes');
+
+  boxesHolder.textContent = '';
+  let boxSize = 30;
+  const elements = [];
+
+  for (let i = 1; i <= amount; i++) {
+    const el = document.createElement ('div');
+    el.style.backgroundColor = getRandomHexColor ();
+    el.style.width = `${boxSize}px`;
+    el.style.height = `${boxSize}px`;
+    elements.push (el);
+    boxSize += 10;
+  }
+
+  boxesHolder.append (...elements);
+}
+
+const btnDestroy = document.querySelector ('button[data-destroy]');
+
+btnDestroy.addEventListener ('click', () => {
+  const boxesHolder = document.querySelector ('#boxes');
+  boxesHolder.textContent = '';
+});
+
+function getRandomHexColor () {
+  return `#${Math.floor (Math.random () * 16777215)
+    .toString (16)
+    .padStart (6, 0)}`;
+}
